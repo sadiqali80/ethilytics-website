@@ -3,6 +3,14 @@ const { clean, isEmail, getMailConfig, getTransporter } = require('./_lib/mailer
 const CONSENT_TEXT = "I'd like Ethilytics to consider my application for this role and contact me about it.";
 const ROLE_TITLE = 'Chief Technology Officer';
 
+const CV_MAX_BYTES = 2 * 1024 * 1024; // 2MB — keeps the base64 JSON payload safely under serverless body-size limits
+const CV_ALLOWED_TYPES = {
+  'application/pdf': '.pdf',
+  'application/msword': '.doc',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': '.docx',
+};
+const isDob = (v) => /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(new Date(v).getTime()) && new Date(v) < new Date();
+
 module.exports = async function handler(req, res) {
   if (req.method === 'GET') {
     return res.status(200).json({
@@ -31,26 +39,40 @@ module.exports = async function handler(req, res) {
     }
 
     const data = {
-      name: clean(body.name, 120),
+      firstName: clean(body.firstName, 80),
+      lastName: clean(body.lastName, 80),
+      dob: clean(body.dob, 10),
       email: clean(body.email, 200),
-      phone: clean(body.phone, 60),
-      linkedin: clean(body.linkedin, 300),
-      portfolio: clean(body.portfolio, 300),
-      currentRole: clean(body.currentRole, 200),
-      message: clean(body.message, 3000),
       consent: body.consent === true,
     };
 
+    const cvFilename = clean(body.cvFilename, 150).replace(/[^a-zA-Z0-9 ._-]/g, '_');
+    const cvType = clean(body.cvType, 150);
+    const cvBase64 = typeof body.cvBase64 === 'string' ? body.cvBase64 : '';
+    const cvExt = (cvFilename.match(/\.[a-z0-9]+$/i) || [''])[0].toLowerCase();
+
     const errors = {};
-    if (!data.name) errors.name = 'required';
+    if (!data.firstName) errors.firstName = 'required';
+    if (!data.lastName) errors.lastName = 'required';
+    if (!isDob(data.dob)) errors.dob = 'invalid';
     if (!data.email || !isEmail(data.email)) errors.email = 'invalid';
-    if (!data.linkedin && !data.portfolio) errors.links = 'required';
     if (!data.consent) errors.consent = 'required';
+
+    let cvBuffer = null;
+    if (!cvBase64 || !cvFilename) {
+      errors.cv = 'required';
+    } else if (!CV_ALLOWED_TYPES[cvType] && !Object.values(CV_ALLOWED_TYPES).includes(cvExt)) {
+      errors.cv = 'type';
+    } else {
+      cvBuffer = Buffer.from(cvBase64, 'base64');
+      if (cvBuffer.length === 0 || cvBuffer.length > CV_MAX_BYTES) errors.cv = 'size';
+    }
 
     if (Object.keys(errors).length) {
       return res.status(400).json({ ok: false, errors });
     }
 
+    const fullName = `${data.firstName} ${data.lastName}`.trim();
     const config = getMailConfig();
     const transporter = getTransporter(config);
     const notifyTo = clean(process.env.CAREERS_NOTIFY_TO, 255) || config.notifyTo;
@@ -61,18 +83,17 @@ module.exports = async function handler(req, res) {
       from: `"Ethilytics careers" <${config.user}>`,
       to: notifyTo,
       replyTo: data.email,
-      subject: `Job application — ${ROLE_TITLE} — ${data.name}`,
+      subject: `Job application — ${ROLE_TITLE} — ${fullName}`,
       text:
         `New application for ${ROLE_TITLE}\n\n` +
-        `Name:      ${data.name}\n` +
-        `Email:     ${data.email}\n` +
-        `Phone:     ${data.phone || '(not supplied)'}\n` +
-        `LinkedIn:  ${data.linkedin || '(not supplied)'}\n` +
-        `Portfolio: ${data.portfolio || '(not supplied)'}\n` +
-        `Current:   ${data.currentRole || '(not supplied)'}\n\n` +
-        `Why this role:\n${data.message || '(none)'}\n\n` +
+        `First name:    ${data.firstName}\n` +
+        `Last name:     ${data.lastName}\n` +
+        `Date of birth: ${data.dob}\n` +
+        `Email:         ${data.email}\n\n` +
+        `CV attached: ${cvFilename}\n\n` +
         `Consent: yes — "${CONSENT_TEXT}" at ${submittedAt}\n` +
         `Ref: ${reference}\n`,
+      attachments: [{ filename: cvFilename, content: cvBuffer, contentType: cvType || undefined }],
     });
 
     await transporter.sendMail({
@@ -81,7 +102,7 @@ module.exports = async function handler(req, res) {
       replyTo: notifyTo,
       subject: `We've received your application — ${ROLE_TITLE} at Ethilytics`,
       text:
-        `Hi ${data.name.split(' ')[0] || 'there'},\n\n` +
+        `Hi ${data.firstName || 'there'},\n\n` +
         `Thanks for applying for ${ROLE_TITLE} at Ethilytics. A member of the founding team ` +
         `reads every application personally. If there's a fit, we'll be in touch within two ` +
         `weeks to arrange a conversation.\n\n` +

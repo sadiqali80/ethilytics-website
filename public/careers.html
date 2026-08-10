@@ -52,7 +52,7 @@
     }
     .grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 16px; }
     label { display: block; font-size: 14px; font-weight: 600; color: #173253; margin-bottom: 6px; }
-    input[type="text"], input[type="email"], input[type="tel"], input[type="url"], textarea {
+    input[type="text"], input[type="email"], input[type="tel"], input[type="url"], input[type="date"], textarea {
       width: 100%; font: inherit; padding: 13px 14px; border: 1px solid rgba(23,50,83,0.22);
       border-radius: 9px; background: #FFFFFF; color: #36495F;
     }
@@ -66,6 +66,14 @@
     }
     .form-status.error { background: rgba(178,59,46,0.08); color: #8A2E24; border: 1px solid rgba(178,59,46,0.25); }
     #submit-btn:disabled { opacity: .65; cursor: not-allowed; transform: none; }
+    .field-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 20px; }
+    .file-drop {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap; width: 100%;
+      border: 1px dashed rgba(23,50,83,0.30); border-radius: 9px; padding: 14px; background: #FFFFFF;
+    }
+    .file-drop input[type="file"] { font: inherit; font-size: 13.5px; }
+    .file-name { font-size: 13.5px; font-weight: 600; color: #0F6E56; }
+    .file-hint { font-size: 12.5px; color: #5A6B7E; margin-top: 6px; }
   </style>
 </head>
 <body>
@@ -172,7 +180,7 @@
           <li>Experience in HR tech, compliance tech, or another trust-sensitive B2B category.</li>
         </ul>
 
-        <p style="font-size:0.98rem;color:#5A6B7E;margin-top:30px;padding-top:22px;border-top:1px solid rgba(23,50,83,0.12);">This is the only open role at Ethilytics right now. If it isn't quite right for you but you think you'd be a strong fit for what we're building, get in touch anyway at <a href="mailto:hello@ethilytics.co.uk" style="color:#0F6E56;font-weight:600;">hello@ethilytics.co.uk</a>.</p>
+        <p style="font-size:0.98rem;color:#5A6B7E;margin-top:30px;padding-top:22px;border-top:1px solid rgba(23,50,83,0.12);">This is the only open role at Ethilytics right now. If it isn't quite right for you but you think you'd be a strong fit for what we're building, get in touch anyway at <a href="mailto:info@ethilytics.co.uk" style="color:#0F6E56;font-weight:600;">info@ethilytics.co.uk</a>.</p>
 
         <div style="margin-top:30px;">
           <a href="#apply" class="btn-primary">Apply for this role</a>
@@ -184,7 +192,7 @@
       <div class="container" style="max-width:640px;">
         <span class="eyebrow" style="color:#0F6E56;">Apply</span>
         <h2 style="font-weight:600;font-size:clamp(1.7rem,3.6vw,2.4rem);line-height:1.15;letter-spacing:-0.012em;color:#173253;margin-top:12px;">Apply for Chief Technology Officer</h2>
-        <p style="font-size:1rem;color:#46586E;margin-top:12px;margin-bottom:30px;">Tell us about yourself and share a link to your LinkedIn profile or portfolio. We read every application personally.</p>
+        <p style="font-size:1rem;color:#46586E;margin-top:12px;margin-bottom:30px;">Tell us who you are and attach your CV. We read every application personally.</p>
 
         <form id="application-form" novalidate>
           <div class="hp-field" aria-hidden="true">
@@ -193,10 +201,24 @@
           </div>
 
           <div style="display:flex;flex-direction:column;gap:20px;">
+            <div class="field-row">
+              <div>
+                <label for="f-first-name">First name</label>
+                <input type="text" id="f-first-name" name="firstName" autocomplete="given-name">
+                <p class="field-error" id="err-firstName" hidden></p>
+              </div>
+
+              <div>
+                <label for="f-last-name">Last name</label>
+                <input type="text" id="f-last-name" name="lastName" autocomplete="family-name">
+                <p class="field-error" id="err-lastName" hidden></p>
+              </div>
+            </div>
+
             <div>
-              <label for="f-name">Full name</label>
-              <input type="text" id="f-name" name="name" autocomplete="name">
-              <p class="field-error" id="err-name" hidden></p>
+              <label for="f-dob">Date of birth</label>
+              <input type="date" id="f-dob" name="dob" autocomplete="bday">
+              <p class="field-error" id="err-dob" hidden></p>
             </div>
 
             <div>
@@ -206,29 +228,13 @@
             </div>
 
             <div>
-              <label for="f-phone">Phone (optional)</label>
-              <input type="tel" id="f-phone" name="phone" autocomplete="tel">
-            </div>
-
-            <div>
-              <label for="f-linkedin">LinkedIn profile</label>
-              <input type="url" id="f-linkedin" name="linkedin" placeholder="https://linkedin.com/in/..." autocomplete="url">
-            </div>
-
-            <div>
-              <label for="f-portfolio">Portfolio or CV link</label>
-              <input type="url" id="f-portfolio" name="portfolio" placeholder="https://...">
-              <p class="field-error" id="err-links" hidden>Please share your LinkedIn profile, a portfolio link, or both.</p>
-            </div>
-
-            <div>
-              <label for="f-role">Current role &amp; organisation (optional)</label>
-              <input type="text" id="f-role" name="currentRole">
-            </div>
-
-            <div>
-              <label for="f-message">Why this role? (optional)</label>
-              <textarea id="f-message" name="message" rows="4"></textarea>
+              <label for="f-cv">Attach your CV</label>
+              <div class="file-drop">
+                <input type="file" id="f-cv" name="cv" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                <span class="file-name" id="cv-file-name"></span>
+              </div>
+              <p class="file-hint">PDF, DOC or DOCX, up to 2MB.</p>
+              <p class="field-error" id="err-cv" hidden></p>
             </div>
 
             <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;font-weight:400;color:#46586E;cursor:pointer;">
@@ -251,7 +257,7 @@
             <circle cx="22" cy="22" r="21" fill="none" stroke="#1D9E75" stroke-width="2"></circle>
             <path d="M13 22.5 L19 28.5 L31 15.5" fill="none" stroke="#1D9E75" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
-          <h3 style="font-size:1.3rem;font-weight:600;color:#173253;margin-bottom:10px;">Application received. Thank you.</h3>
+          <h3 style="font-size:1.3rem;font-weight:600;color:#173253;margin-bottom:10px;">Your application has been submitted successfully.</h3>
           <p style="font-size:1rem;color:#46586E;max-width:440px;margin:0 auto;">A member of the Ethilytics team reads every application personally. If there's a fit, we'll be in touch within two weeks.</p>
         </div>
       </div>
@@ -287,6 +293,15 @@
       var statusBox = document.getElementById('form-status');
       var submitBtn = document.getElementById('submit-btn');
       var isEmail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+      var cvInput = document.getElementById('f-cv');
+      var cvFileName = document.getElementById('cv-file-name');
+      var CV_MAX_BYTES = 2 * 1024 * 1024;
+      var CV_ALLOWED_EXT = ['.pdf', '.doc', '.docx'];
+
+      cvInput.addEventListener('change', function () {
+        var file = cvInput.files && cvInput.files[0];
+        cvFileName.textContent = file ? file.name : '';
+      });
 
       function setFieldError(id, message) {
         var el = document.getElementById(id);
@@ -300,41 +315,67 @@
       }
 
       function clearErrors() {
-        ['err-name', 'err-email', 'err-links', 'err-consent'].forEach(function (id) {
+        ['err-firstName', 'err-lastName', 'err-dob', 'err-email', 'err-cv', 'err-consent'].forEach(function (id) {
           setFieldError(id, '');
         });
         statusBox.hidden = true;
+      }
+
+      function fileToBase64(file) {
+        return new Promise(function (resolve, reject) {
+          var reader = new FileReader();
+          reader.onload = function () { resolve(String(reader.result).split(',')[1] || ''); };
+          reader.onerror = function () { reject(new Error('file_read_failed')); };
+          reader.readAsDataURL(file);
+        });
       }
 
       form.addEventListener('submit', function (event) {
         event.preventDefault();
         clearErrors();
 
-        var name = document.getElementById('f-name').value.trim();
+        var firstName = document.getElementById('f-first-name').value.trim();
+        var lastName = document.getElementById('f-last-name').value.trim();
+        var dob = document.getElementById('f-dob').value.trim();
         var email = document.getElementById('f-email').value.trim();
-        var phone = document.getElementById('f-phone').value.trim();
-        var linkedin = document.getElementById('f-linkedin').value.trim();
-        var portfolio = document.getElementById('f-portfolio').value.trim();
-        var currentRole = document.getElementById('f-role').value.trim();
-        var message = document.getElementById('f-message').value.trim();
         var consent = document.getElementById('f-consent').checked;
         var website = document.getElementById('f-website').value.trim();
+        var cvFile = cvInput.files && cvInput.files[0];
+        var cvExt = cvFile ? cvFile.name.slice(cvFile.name.lastIndexOf('.')).toLowerCase() : '';
 
         var hasError = false;
-        if (!name) { setFieldError('err-name', 'Please enter your name.'); hasError = true; }
+        if (!firstName) { setFieldError('err-firstName', 'Please enter your first name.'); hasError = true; }
+        if (!lastName) { setFieldError('err-lastName', 'Please enter your last name.'); hasError = true; }
+        if (!dob) { setFieldError('err-dob', 'Please enter your date of birth.'); hasError = true; }
+        else if (new Date(dob) >= new Date()) { setFieldError('err-dob', 'Please enter a valid date of birth.'); hasError = true; }
         if (!email || !isEmail.test(email)) { setFieldError('err-email', 'Please enter a valid email address.'); hasError = true; }
-        if (!linkedin && !portfolio) { setFieldError('err-links', 'Please share your LinkedIn profile, a portfolio link, or both.'); hasError = true; }
+        if (!cvFile) { setFieldError('err-cv', 'Please attach your CV.'); hasError = true; }
+        else if (CV_ALLOWED_EXT.indexOf(cvExt) === -1) { setFieldError('err-cv', 'Please attach a PDF, DOC or DOCX file.'); hasError = true; }
+        else if (cvFile.size > CV_MAX_BYTES) { setFieldError('err-cv', 'That file is too large — please attach a CV under 2MB.'); hasError = true; }
         if (!consent) { setFieldError('err-consent', 'Please tick this to let us consider your application.'); hasError = true; }
         if (hasError) return;
 
         submitBtn.disabled = true;
         submitBtn.textContent = 'Sending…';
 
-        fetch('/api/job-application', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: name, email: email, phone: phone, linkedin: linkedin, portfolio: portfolio, currentRole: currentRole, message: message, consent: consent, website: website })
-        })
+        fileToBase64(cvFile)
+          .then(function (cvBase64) {
+            return fetch('/api/job-application', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                firstName: firstName,
+                lastName: lastName,
+                dob: dob,
+                email: email,
+                consent: consent,
+                website: website,
+                cvBase64: cvBase64,
+                cvFilename: cvFile.name,
+                cvType: cvFile.type
+              })
+            });
+          })
           .then(function (response) {
             if (!response.ok) throw new Error('request_failed');
             return response.json();
@@ -345,7 +386,7 @@
             successPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
           })
           .catch(function () {
-            statusBox.textContent = 'Sorry, your application could not be sent. Please try again, or email hello@ethilytics.co.uk directly.';
+            statusBox.textContent = 'Sorry, your application could not be sent. Please try again, or email info@ethilytics.co.uk directly.';
             statusBox.hidden = false;
             submitBtn.disabled = false;
             submitBtn.textContent = 'Submit application';

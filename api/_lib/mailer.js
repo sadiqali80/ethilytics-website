@@ -23,11 +23,12 @@ function getMailConfig() {
 
 function getTransporter(config) {
   if (!cachedTransporter) {
+    const secure = config.port === 465; // port 465 = implicit TLS from the start; port 587 = STARTTLS
     cachedTransporter = nodemailer.createTransport({
       host: config.host,
       port: config.port,
-      secure: false,
-      requireTLS: true,
+      secure,
+      requireTLS: !secure,
 
       auth: {
         user: config.user,

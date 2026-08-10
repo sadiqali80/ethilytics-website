@@ -45,10 +45,10 @@ Fill `.env` (gitignored, never commit it):
 ```
 SMTP_HOST=smtp.titan.email
 SMTP_PORT=465
-SMTP_USER=hello@ethilytics.co.uk
+SMTP_USER=info@ethilytics.co.uk
 SMTP_PASS=********
-NOTIFY_TO=hello@ethilytics.co.uk
-# CAREERS_NOTIFY_TO=hello@ethilytics.co.uk   optional, falls back to NOTIFY_TO
+NOTIFY_TO=info@ethilytics.co.uk
+# CAREERS_NOTIFY_TO=info@ethilytics.co.uk   optional, falls back to NOTIFY_TO
 ```
 
 IMAP is only for reading mail in a client; the forms only need SMTP. IMAP values are left commented in `.env.example` for reference.

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <title>Integrations &amp; add-ons: Jira, Slack &amp; Notion | Ethilytics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Connect Ethilytics EPIP to the tools your team already uses. Read-only, metadata-only integrations with Jira and Slack today, with Notion coming soon.">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Ethilytics integrations: Jira, Slack &amp; Notion">
+  <meta property="og:description" content="Connect your favourite apps and manage projects in one single interface, without ever reading message content, files or screens.">
+  <meta property="og:image" content="https://ethilytics.co.uk/og-image.png">
+  <meta property="og:locale" content="en_GB">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/ethilytics-icon-color.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #36495F;
+      background: #F5F3ED;
+      overflow-x: hidden;
+    }
+    h1, h2, h3 { font-family: 'Source Serif 4', Georgia, serif; }
+    a { color: inherit; }
+    :focus-visible { outline: 2px solid #2BA7A0; outline-offset: 2px; }
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 40px); }
+    .section { padding: clamp(56px, 8vw, 100px) 0; }
+    .eyebrow { font-weight: 600; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; }
+    .btn-primary {
+      display: inline-block; text-decoration: none; background: #1F3A5F; color: #FFFFFF;
+      font-weight: 600; font-size: 16px; padding: 15px 26px; border-radius: 9px;
+      border: 1px solid #1F3A5F; transition: background .18s ease, transform .18s ease;
+    }
+    .btn-primary:hover { background: #173253; transform: translateY(-1px); }
+    .btn-secondary {
+      display: inline-block; text-decoration: none; background: transparent; color: #1F3A5F;
+      font-weight: 600; font-size: 16px; padding: 14px 25px; border-radius: 9px;
+      border: 1px solid rgba(23,50,83,0.24); transition: border-color .18s ease;
+    }
+    .btn-secondary:hover { border-color: rgba(23,50,83,0.5); }
+    .nav-link { text-decoration: none; color: #46586E; font-size: 14.5px; font-weight: 500; }
+    .nav-link:hover { color: #173253; }
+    .card {
+      background: #FFFFFF; border: 1px solid rgba(23,50,83,0.10); border-radius: 12px; padding: 22px;
+    }
+    .grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 238px), 1fr)); gap: 16px; }
+
+    .integration-card {
+      background: #FFFFFF; border: 1px solid rgba(23,50,83,0.10); border-radius: 14px; padding: 26px;
+      display: flex; flex-direction: column; gap: 16px; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .integration-card:hover { transform: translateY(-3px); box-shadow: 0 18px 40px -22px rgba(16,40,70,0.35); border-color: rgba(43,167,160,0.30); }
+    .integration-card.soon { opacity: .82; }
+    .integration-logo {
+      width: 56px; height: 56px; border-radius: 13px; display: flex; align-items: center; justify-content: center;
+      background: #FCFBF8; border: 1px solid rgba(23,50,83,0.10); flex: 0 0 auto;
+    }
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 600; letter-spacing: .02em;
+      padding: 4px 10px; border-radius: 999px; flex: 0 0 auto;
+    }
+    .status-pill.live { color: #0F6E56; background: rgba(43,167,160,0.12); border: 1px solid rgba(43,167,160,0.28); }
+    .status-pill.soon { color: #7A6A3E; background: rgba(201,132,43,0.12); border: 1px solid rgba(201,132,43,0.28); }
+  </style>
+</head>
+<body>
+
+  <header style="position:sticky;top:0;z-index:50;background:rgba(245,243,237,0.92);backdrop-filter:saturate(140%) blur(10px);-webkit-backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid rgba(23,50,83,0.10);">
+    <div class="container" style="padding-top:14px;padding-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;">
+      <a href="index.html#top" style="display:flex;align-items:center;gap:11px;text-decoration:none;flex:0 0 auto;">
+        <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true" style="display:block;">
+          <line x1="5" y1="8" x2="13" y2="4" stroke="#2BA7A0" stroke-width="1.2"></line>
+          <line x1="13" y1="4" x2="21" y2="9" stroke="#2BA7A0" stroke-width="1.2"></line>
+          <line x1="5" y1="8" x2="9" y2="18" stroke="#2BA7A0" stroke-width="1.2"></line>
+          <line x1="9" y1="18" x2="19" y2="18" stroke="#2BA7A0" stroke-width="1.2"></line>
+          <line x1="19" y1="18" x2="21" y2="9" stroke="#2BA7A0" stroke-width="1.2"></line>
+          <circle cx="5" cy="8" r="2.1" fill="#1F3A5F"></circle>
+          <circle cx="13" cy="4" r="2.4" fill="#2BA7A0"></circle>
+          <circle cx="21" cy="9" r="2.1" fill="#1F3A5F"></circle>
+          <circle cx="9" cy="18" r="2.1" fill="#1F3A5F"></circle>
+          <circle cx="19" cy="18" r="2.4" fill="#1D9E75"></circle>
+        </svg>
+        <span style="font-family:'Source Serif 4',serif;font-weight:600;font-size:19px;letter-spacing:-0.01em;color:#173253;">Ethilytics</span>
+      </a>
+      <nav aria-label="Primary" style="display:flex;align-items:center;gap:26px;flex-wrap:wrap;justify-content:center;flex:1 1 auto;">
+        <a href="index.html#top" class="nav-link">Home</a>
+        <a href="product.html" class="nav-link">Product</a>
+        <a href="integrations.html" class="nav-link" style="color:#173253;">Integrations</a>
+        <a href="pricing.html" class="nav-link">Pricing</a>
+        <a href="about.html" class="nav-link">About us</a>
+        <a href="careers.html" class="nav-link">Careers</a>
+      </nav>
+      <a href="contact.html" class="btn-primary" style="flex:0 0 auto;white-space:nowrap;font-size:14.5px;padding:11px 18px;">Book a demo</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ============ INTRO ============ -->
+    <section class="section" style="background:#F5F3ED;">
+      <div class="container" style="max-width:820px;text-align:left;">
+        <span class="eyebrow" style="color:#0F6E56;">Product</span>
+        <h1 style="font-weight:600;font-size:clamp(2rem,4.4vw,3rem);line-height:1.12;letter-spacing:-0.014em;color:#173253;margin-top:14px;">Integrations &amp; add-ons.</h1>
+        <p style="font-size:clamp(1.05rem,1.4vw,1.18rem);line-height:1.6;color:#46586E;margin-top:20px;max-width:640px;">These Ethilytics integrations allow you to connect your favourite apps so you can conveniently manage projects in one single interface. Every connection reads structural metadata only, task timestamps, status changes and dependencies, never message content, files or screens.</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:30px;">
+          <a href="contact.html" class="btn-primary">Book a demo</a>
+          <a href="product.html#how" class="btn-secondary">How data is handled</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ INTEGRATIONS GRID ============ -->
+    <section class="section" style="background:#FFFFFF;border-top:1px solid rgba(23,50,83,0.08);">
+      <div class="container">
+        <div style="max-width:60ch;margin:0 0 clamp(34px,4vw,48px);">
+          <span class="eyebrow" style="color:#0F6E56;display:block;margin:0 0 18px;">Available now &amp; on the way</span>
+          <h2 style="font-weight:600;font-size:clamp(1.7rem,3.6vw,2.6rem);line-height:1.12;letter-spacing:-0.012em;color:#173253;margin:0 0 16px;max-width:20ch;">Jira, Slack &amp; Notion.</h2>
+          <p style="font-size:clamp(1.05rem,1.4vw,1.18rem);line-height:1.6;color:#46586E;margin:0;">Read-only connections, set up in minutes, with nothing to install on anyone's device.</p>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px;">
+
+          <!-- Jira -->
+          <article class="integration-card">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+              <div class="integration-logo">
+                <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="jiraA" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" stop-color="#0052CC"></stop>
+                      <stop offset="1" stop-color="#2684FF"></stop>
+                    </linearGradient>
+                  </defs>
+                  <rect x="1" y="1" width="28" height="28" rx="7" fill="url(#jiraA)"></rect>
+                  <path d="M15 7 L21.5 13.3 C22.1 13.9 22.1 14.9 21.5 15.5 L15 21.8 L15 16.6 L11.6 13.3 Z" fill="#FFFFFF"></path>
+                  <path d="M15 7 L15 12.2 L11.6 15.5 C11 14.9 11 13.9 11.6 13.3 Z" fill="#B3D4FF"></path>
+                </svg>
+              </div>
+              <span class="status-pill live">Available</span>
+            </div>
+            <div>
+              <h3 style="font-size:17px;font-weight:600;color:#173253;margin:0 0 8px;">Jira</h3>
+              <p style="font-size:14px;line-height:1.55;color:#5A6B7E;margin:0;">Connect your Jira projects to see workflow stages, hand-offs and cycle time at team level. We read ticket status and timestamps, never ticket content.</p>
+            </div>
+          </article>
+
+          <!-- Slack -->
+          <article class="integration-card">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+              <div class="integration-logo">
+                <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+                  <g>
+                    <rect x="6.2" y="1.6" width="4.6" height="12" rx="2.3" fill="#36C5F0"></rect>
+                    <rect x="1.6" y="10.2" width="12" height="4.6" rx="2.3" fill="#36C5F0"></rect>
+                  </g>
+                  <g>
+                    <rect x="19.2" y="1.6" width="4.6" height="12" rx="2.3" fill="#2EB67D"></rect>
+                    <rect x="16.4" y="6.2" width="12" height="4.6" rx="2.3" fill="#2EB67D"></rect>
+                  </g>
+                  <g>
+                    <rect x="19.2" y="16.4" width="4.6" height="12" rx="2.3" fill="#ECB22E"></rect>
+                    <rect x="16.4" y="19.2" width="12" height="4.6" rx="2.3" fill="#ECB22E"></rect>
+                  </g>
+                  <g>
+                    <rect x="6.2" y="16.4" width="4.6" height="12" rx="2.3" fill="#E01E5A"></rect>
+                    <rect x="1.6" y="19.2" width="12" height="4.6" rx="2.3" fill="#E01E5A"></rect>
+                  </g>
+                </svg>
+              </div>
+              <span class="status-pill live">Available</span>
+            </div>
+            <div>
+              <h3 style="font-size:17px;font-weight:600;color:#173253;margin:0 0 8px;">Slack</h3>
+              <p style="font-size:14px;line-height:1.55;color:#5A6B7E;margin:0;">Surface response-time and hand-off patterns across channels and threads. We read that a message moved a workflow forward, never what it said.</p>
+            </div>
+          </article>
+
+          <!-- Notion -->
+          <article class="integration-card soon">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+              <div class="integration-logo">
+                <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+                  <rect x="2" y="2" width="26" height="26" rx="5" fill="#FFFFFF" stroke="#173253" stroke-width="1.6"></rect>
+                  <path d="M9 9 h3.2 l6.6 10.2 V9 H22 v12 h-3.2 L12.2 10.9 V21 H9 Z" fill="#173253"></path>
+                </svg>
+              </div>
+              <span class="status-pill soon">Coming soon</span>
+            </div>
+            <div>
+              <h3 style="font-size:17px;font-weight:600;color:#173253;margin:0 0 8px;">Notion</h3>
+              <p style="font-size:14px;line-height:1.55;color:#5A6B7E;margin:0;">Workspace and page-level structural metadata for teams who plan and document in Notion. In development now.</p>
+            </div>
+          </article>
+
+        </div>
+
+        <p style="font-size:14.5px;line-height:1.6;color:#5A6B7E;margin:clamp(30px,4vw,42px) 0 0;max-width:60ch;">Don't see a tool you rely on? <a href="contact.html" style="color:#0F6E56;font-weight:600;text-decoration:underline;">Tell us what you use</a> and we'll factor it into the integration roadmap.</p>
+      </div>
+    </section>
+
+    <!-- ============ CTA ============ -->
+    <section style="background:#FFFFFF;border-top:1px solid rgba(23,50,83,0.08);">
+      <div class="container" style="padding-top:clamp(48px,6vw,72px);padding-bottom:clamp(48px,6vw,72px);text-align:center;">
+        <h2 style="font-weight:600;font-size:clamp(1.6rem,3.2vw,2.2rem);line-height:1.15;letter-spacing:-0.012em;color:#173253;margin:0 auto 18px;max-width:24ch;">Ready to connect your tools and see team-level insight?</h2>
+        <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;">
+          <a href="contact.html" class="btn-primary">Book a demo</a>
+          <a href="pricing.html" class="btn-secondary">View pricing</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="background:#102338;color:#94A8BC;">
+    <div class="container" style="padding:clamp(44px,6vw,64px) clamp(20px,5vw,40px) 28px;">
+      <div style="display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:center;margin-bottom:26px;">
+        <a href="index.html#top" style="display:flex;align-items:center;gap:11px;text-decoration:none;">
+          <svg width="22" height="22" viewBox="0 0 26 26" aria-hidden="true"><line x1="5" y1="8" x2="13" y2="4" stroke="#2BA7A0" stroke-width="1.2"></line><line x1="13" y1="4" x2="21" y2="9" stroke="#2BA7A0" stroke-width="1.2"></line><line x1="5" y1="8" x2="9" y2="18" stroke="#2BA7A0" stroke-width="1.2"></line><line x1="9" y1="18" x2="19" y2="18" stroke="#2BA7A0" stroke-width="1.2"></line><line x1="19" y1="18" x2="21" y2="9" stroke="#2BA7A0" stroke-width="1.2"></line><circle cx="5" cy="8" r="2.1" fill="#1F3A5F"></circle><circle cx="13" cy="4" r="2.4" fill="#2BA7A0"></circle><circle cx="21" cy="9" r="2.1" fill="#1F3A5F"></circle><circle cx="9" cy="18" r="2.1" fill="#1D9E75"></circle><circle cx="19" cy="18" r="2.1" fill="#1F3A5F"></circle></svg>
+          <span style="font-family:'Source Serif 4',serif;font-weight:600;font-size:16px;color:#FFFFFF;">Ethilytics</span>
+        </a>
+        <a href="index.html#top" style="text-decoration:none;font-size:13.5px;color:#94A8BC;font-weight:500;">&larr; Back to Ethilytics</a>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,0.10);padding-top:22px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;">
+        <span style="font-size:12.5px;color:#AFC2D4;" id="footer-year">&copy; Ethilytics Ltd. All rights reserved.</span>
+        <span style="font-size:12px;color:#5E748A;">Pre-launch &middot; designed for UK GDPR &amp; ICO guidance &middot; target ISO/IEC 27001 &amp; 27701</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var yearEl = document.getElementById('footer-year');
+      if (yearEl) {
+        yearEl.textContent = '© ' + new Date().getFullYear() + ' Ethilytics Ltd. All rights reserved.';
+      }
+    })();
+  </script>
+
+</body>
+</html>
