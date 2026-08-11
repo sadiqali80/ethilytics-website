@@ -106,8 +106,6 @@ module.exports = async function handler(req, res) {
         `Thanks for applying for ${ROLE_TITLE} at Ethilytics. A member of the founding team ` +
         `reads every application personally. If there's a fit, we'll be in touch within two ` +
         `weeks to arrange a conversation.\n\n` +
-        `Your details are processed under UK GDPR for recruitment purposes only, and never ` +
-        `shared. Reply to this email at any time to ask us to delete them.\n\n` +
         `— Ethilytics\n`,
     });
 
