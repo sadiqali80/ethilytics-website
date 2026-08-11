@@ -105,7 +105,7 @@ app.post('/api/demo-request', limiter, async (req, res) => {
     fs.appendFileSync(path.join(__dirname, 'submissions.log'), JSON.stringify(record) + '\n');
 
     await transporter.sendMail({
-      from: `"Ethilytics website" <${process.env.SMTP_USER}>`,
+      from: `"Ethilytics website" <${process.env.MAIL_FROM || process.env.SMTP_USER}>`,
       to: process.env.NOTIFY_TO,
       replyTo: data.email,
       subject: `Demo request — ${data.company} (${data.role || 'role n/a'})`,
@@ -117,7 +117,7 @@ app.post('/api/demo-request', limiter, async (req, res) => {
     });
 
     await transporter.sendMail({
-      from: `"Ethilytics" <${process.env.SMTP_USER}>`,
+      from: `"Ethilytics" <${process.env.MAIL_FROM || process.env.SMTP_USER}>`,
       to: data.email,
       subject: 'Thanks — we’ll be in touch about your EPIP demo',
       text:
@@ -191,7 +191,7 @@ app.post('/api/job-application', limiter, async (req, res) => {
     const notifyTo = process.env.CAREERS_NOTIFY_TO || process.env.NOTIFY_TO;
 
     await transporter.sendMail({
-      from: `"Ethilytics careers" <${process.env.SMTP_USER}>`,
+      from: `"Ethilytics careers" <${process.env.MAIL_FROM || process.env.SMTP_USER}>`,
       to: notifyTo,
       replyTo: data.email,
       subject: `Job application — ${CTO_ROLE_TITLE} — ${fullName}`,
@@ -205,7 +205,7 @@ app.post('/api/job-application', limiter, async (req, res) => {
     });
 
     await transporter.sendMail({
-      from: `"Ethilytics" <${process.env.SMTP_USER}>`,
+      from: `"Ethilytics" <${process.env.MAIL_FROM || process.env.SMTP_USER}>`,
       to: data.email,
       replyTo: notifyTo,
       subject: `We've received your application — ${CTO_ROLE_TITLE} at Ethilytics`,

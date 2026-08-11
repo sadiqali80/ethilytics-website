@@ -80,7 +80,7 @@ module.exports = async function handler(req, res) {
     const submittedAt = new Date().toISOString();
 
     await transporter.sendMail({
-      from: `"Ethilytics careers" <${config.user}>`,
+      from: `"Ethilytics careers" <${config.from}>`,
       to: notifyTo,
       replyTo: data.email,
       subject: `Job application — ${ROLE_TITLE} — ${fullName}`,
@@ -97,7 +97,7 @@ module.exports = async function handler(req, res) {
     });
 
     await transporter.sendMail({
-      from: `"Ethilytics" <${config.user}>`,
+      from: `"Ethilytics" <${config.from}>`,
       to: data.email,
       replyTo: notifyTo,
       subject: `We've received your application — ${ROLE_TITLE} at Ethilytics`,

@@ -2,3 +2,6 @@ submissions.log
 applications.log
 .env
 node_modules/
+
+.vercel
+.env*

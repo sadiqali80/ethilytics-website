@@ -65,7 +65,7 @@ module.exports = async function handler(req, res) {
     const submittedAt = new Date().toISOString();
 
     await transporter.sendMail({
-      from: `"Ethilytics website" <${config.user}>`,
+      from: `"Ethilytics website" <${config.from}>`,
       to: config.notifyTo,
       replyTo: data.email,
       subject: `Demo request — ${data.company} (${data.role || 'role n/a'})`,
@@ -82,7 +82,7 @@ module.exports = async function handler(req, res) {
     });
 
     await transporter.sendMail({
-      from: `"Ethilytics" <${config.user}>`,
+      from: `"Ethilytics" <${config.from}>`,
       to: data.email,
       replyTo: config.notifyTo,
       subject: 'Thanks — we’ll be in touch about your EPIP demo',

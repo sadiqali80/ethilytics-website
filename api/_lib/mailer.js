@@ -11,6 +11,7 @@ function getMailConfig() {
   const user = clean(process.env.SMTP_USER, 255);
   const pass = String(process.env.SMTP_PASS || '');
   const notifyTo = clean(process.env.NOTIFY_TO || user, 255);
+  const from = clean(process.env.MAIL_FROM || user, 255); // lets SMTP auth as one mailbox but show a different verified From (e.g. a Gmail "Send mail as" alias)
 
   if (!host || !Number.isFinite(port) || !user || !pass || !notifyTo) {
     const error = new Error('Missing required SMTP environment variables.');
@@ -18,7 +19,7 @@ function getMailConfig() {
     throw error;
   }
 
-  return { host, port, user, pass, notifyTo };
+  return { host, port, user, pass, notifyTo, from };
 }
 
 function getTransporter(config) {
