@@ -312,7 +312,26 @@
           </div>
         </div>
         <a href="pricing.html" class="nav-link">Pricing</a>
-        <a href="about.html" class="nav-link">About us</a>
+        <div class="nav-dropdown" id="about-dropdown">
+          <button type="button" class="nav-dropdown-btn" aria-expanded="false" aria-haspopup="true" id="about-dropdown-btn">
+            About us
+            <svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1 L5 5 L9 1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </button>
+          <div class="nav-dropdown-panel" role="menu" aria-labelledby="about-dropdown-btn">
+            <a href="about.html" class="dropdown-item" role="menuitem">
+              <strong>About us</strong>
+              <span>Who we are</span>
+            </a>
+            <a href="vision-mission.html" class="dropdown-item" role="menuitem">
+              <strong>Vision &amp; Mission</strong>
+              <span>What we're building toward</span>
+            </a>
+            <a href="values.html" class="dropdown-item" role="menuitem">
+              <strong>Values</strong>
+              <span>The principles we build by</span>
+            </a>
+          </div>
+        </div>
         <a href="careers.html" class="nav-link">Careers</a>
         <a href="contact.html" class="nav-link">Contact</a>
       </nav>
@@ -743,14 +762,29 @@
     })();
 
     (function () {
-      var dropdown = document.getElementById('product-dropdown');
-      var btn = document.getElementById('product-dropdown-btn');
-      if (!dropdown || !btn) return;
-      function close() { dropdown.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
-      function toggle() { var open = dropdown.classList.toggle('open'); btn.setAttribute('aria-expanded', open ? 'true' : 'false'); }
-      btn.addEventListener('click', function (e) { e.stopPropagation(); toggle(); });
-      document.addEventListener('click', function (e) { if (!dropdown.contains(e.target)) close(); });
-      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+      var dropdowns = Array.prototype.map.call(document.querySelectorAll('.nav-dropdown'), function (dropdown) {
+        return { dropdown: dropdown, btn: dropdown.querySelector('.nav-dropdown-btn') };
+      }).filter(function (d) { return d.btn; });
+      if (!dropdowns.length) return;
+      function closeAll(except) {
+        dropdowns.forEach(function (d) {
+          if (d.dropdown === except) return;
+          d.dropdown.classList.remove('open');
+          d.btn.setAttribute('aria-expanded', 'false');
+        });
+      }
+      dropdowns.forEach(function (d) {
+        d.btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var open = d.dropdown.classList.toggle('open');
+          d.btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          if (open) closeAll(d.dropdown);
+        });
+      });
+      document.addEventListener('click', function (e) {
+        dropdowns.forEach(function (d) { if (!d.dropdown.contains(e.target)) { d.dropdown.classList.remove('open'); d.btn.setAttribute('aria-expanded', 'false'); } });
+      });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAll(); });
     })();
 
     (function () {

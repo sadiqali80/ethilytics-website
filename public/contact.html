@@ -41,6 +41,25 @@
     .btn-primary:hover { background: #173253; transform: translateY(-1px); }
     .nav-link { text-decoration: none; color: #46586E; font-size: 14.5px; font-weight: 500; }
     .nav-link:hover { color: #173253; }
+    .nav-dropdown { position: relative; }
+    .nav-dropdown-btn {
+      appearance: none; background: transparent; border: none; font: inherit; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 5px; color: #46586E; font-size: 14.5px; font-weight: 500; padding: 6px 0;
+    }
+    .nav-dropdown-btn:hover, .nav-dropdown.open .nav-dropdown-btn { color: #173253; }
+    .nav-dropdown-btn svg { transition: transform .18s ease; flex: 0 0 auto; }
+    .nav-dropdown.open .nav-dropdown-btn svg { transform: rotate(180deg); }
+    .nav-dropdown-panel {
+      position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(-6px);
+      width: 240px; background: #FFFFFF; border: 1px solid rgba(23,50,83,0.10); border-radius: 13px;
+      box-shadow: 0 20px 45px -18px rgba(16,40,70,0.35); padding: 8px; opacity: 0; visibility: hidden;
+      transition: opacity .16s ease, transform .16s ease, visibility .16s; z-index: 60;
+    }
+    .nav-dropdown.open .nav-dropdown-panel { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+    .dropdown-item { display: flex; flex-direction: column; gap: 2px; text-decoration: none; padding: 10px 12px; border-radius: 9px; transition: background .15s ease; }
+    .dropdown-item:hover { background: rgba(43,167,160,0.08); }
+    .dropdown-item strong { font-size: 14px; font-weight: 600; color: #173253; }
+    .dropdown-item span { font-size: 12.5px; color: #5A6B7E; }
     label { display: block; font-size: 13.5px; font-weight: 600; color: #173253; margin-bottom: 7px; }
     input[type="text"], input[type="email"], input[type="tel"], textarea, select {
       width: 100%; font: inherit; font-size: 15px; color: #173253; padding: 13px 14px;
@@ -81,7 +100,26 @@
         <a href="index.html#top" class="nav-link">Home</a>
         <a href="product.html" class="nav-link">Product</a>
         <a href="pricing.html" class="nav-link">Pricing</a>
-        <a href="about.html" class="nav-link">About us</a>
+        <div class="nav-dropdown" id="about-dropdown">
+          <button type="button" class="nav-dropdown-btn" aria-expanded="false" aria-haspopup="true" id="about-dropdown-btn">
+            About us
+            <svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1 L5 5 L9 1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </button>
+          <div class="nav-dropdown-panel" role="menu" aria-labelledby="about-dropdown-btn">
+            <a href="about.html" class="dropdown-item" role="menuitem">
+              <strong>About us</strong>
+              <span>Who we are</span>
+            </a>
+            <a href="vision-mission.html" class="dropdown-item" role="menuitem">
+              <strong>Vision &amp; Mission</strong>
+              <span>What we're building toward</span>
+            </a>
+            <a href="values.html" class="dropdown-item" role="menuitem">
+              <strong>Values</strong>
+              <span>The principles we build by</span>
+            </a>
+          </div>
+        </div>
         <a href="careers.html" class="nav-link">Careers</a>
       </nav>
       <a href="contact.html" class="btn-primary" style="flex:0 0 auto;white-space:nowrap;font-size:14.5px;padding:11px 18px;">Book a demo</a>
@@ -278,6 +316,17 @@
             submitBtn.textContent = 'Request a demo';
           });
       });
+    })();
+
+    (function () {
+      var dropdown = document.getElementById('about-dropdown');
+      var btn = document.getElementById('about-dropdown-btn');
+      if (!dropdown || !btn) return;
+      function close() { dropdown.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+      function toggle() { var open = dropdown.classList.toggle('open'); btn.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+      btn.addEventListener('click', function (e) { e.stopPropagation(); toggle(); });
+      document.addEventListener('click', function (e) { if (!dropdown.contains(e.target)) close(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
     })();
   </script>
 

@@ -47,6 +47,25 @@
     .btn-secondary:hover { border-color: rgba(23,50,83,0.5); }
     .nav-link { text-decoration: none; color: #46586E; font-size: 14.5px; font-weight: 500; }
     .nav-link:hover { color: #173253; }
+    .nav-dropdown { position: relative; }
+    .nav-dropdown-btn {
+      appearance: none; background: transparent; border: none; font: inherit; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 5px; color: #46586E; font-size: 14.5px; font-weight: 500; padding: 6px 0;
+    }
+    .nav-dropdown-btn:hover, .nav-dropdown.open .nav-dropdown-btn { color: #173253; }
+    .nav-dropdown-btn svg { transition: transform .18s ease; flex: 0 0 auto; }
+    .nav-dropdown.open .nav-dropdown-btn svg { transform: rotate(180deg); }
+    .nav-dropdown-panel {
+      position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(-6px);
+      width: 240px; background: #FFFFFF; border: 1px solid rgba(23,50,83,0.10); border-radius: 13px;
+      box-shadow: 0 20px 45px -18px rgba(16,40,70,0.35); padding: 8px; opacity: 0; visibility: hidden;
+      transition: opacity .16s ease, transform .16s ease, visibility .16s; z-index: 60;
+    }
+    .nav-dropdown.open .nav-dropdown-panel { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+    .dropdown-item { display: flex; flex-direction: column; gap: 2px; text-decoration: none; padding: 10px 12px; border-radius: 9px; transition: background .15s ease; }
+    .dropdown-item:hover { background: rgba(43,167,160,0.08); }
+    .dropdown-item strong { font-size: 14px; font-weight: 600; color: #173253; }
+    .dropdown-item span { font-size: 12.5px; color: #5A6B7E; }
     .card {
       background: #FFFFFF; border: 1px solid rgba(23,50,83,0.10); border-radius: 12px; padding: 22px;
     }
@@ -77,7 +96,26 @@
         <a href="index.html#top" class="nav-link">Home</a>
         <a href="product.html" class="nav-link" style="color:#173253;">Product</a>
         <a href="pricing.html" class="nav-link">Pricing</a>
-        <a href="about.html" class="nav-link">About us</a>
+        <div class="nav-dropdown" id="about-dropdown">
+          <button type="button" class="nav-dropdown-btn" aria-expanded="false" aria-haspopup="true" id="about-dropdown-btn">
+            About us
+            <svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1 L5 5 L9 1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </button>
+          <div class="nav-dropdown-panel" role="menu" aria-labelledby="about-dropdown-btn">
+            <a href="about.html" class="dropdown-item" role="menuitem">
+              <strong>About us</strong>
+              <span>Who we are</span>
+            </a>
+            <a href="vision-mission.html" class="dropdown-item" role="menuitem">
+              <strong>Vision &amp; Mission</strong>
+              <span>What we're building toward</span>
+            </a>
+            <a href="values.html" class="dropdown-item" role="menuitem">
+              <strong>Values</strong>
+              <span>The principles we build by</span>
+            </a>
+          </div>
+        </div>
         <a href="careers.html" class="nav-link">Careers</a>
       </nav>
       <a href="contact.html" class="btn-primary" style="flex:0 0 auto;white-space:nowrap;font-size:14.5px;padding:11px 18px;">Book a demo</a>
@@ -89,9 +127,10 @@
     <!-- ============ INTRO / THE IMPASSE ============ -->
     <section class="section" style="background:#F5F3ED;">
       <div class="container" style="max-width:820px;text-align:left;">
-        <span class="eyebrow" style="color:#0F6E56;">Product</span>
-        <h1 style="font-weight:600;font-size:clamp(2rem,4.4vw,3rem);line-height:1.12;letter-spacing:-0.014em;color:#173253;margin-top:14px;">How we build team-level insight and keep it anonymous.</h1>
-        <p style="font-size:clamp(1.05rem,1.4vw,1.18rem);line-height:1.6;color:#46586E;margin-top:20px;max-width:640px;">Work is spread across remote, hybrid and in-office teams. You need to know where it flows smoothly and where it stalls, without watching individuals to find out. Four stages turn identity-free signals into patterns you can act on. We strip identity at the very start, before anything is stored.</p>
+        <h1 style="font-weight:600;font-size:clamp(2rem,4.4vw,3rem);line-height:1.12;letter-spacing:-0.014em;color:#173253;">EPIP</h1>
+        <p style="font-family:'Source Serif 4',serif;font-weight:600;font-size:clamp(1.15rem,2.1vw,1.45rem);line-height:1.4;color:#173253;margin-top:16px;max-width:640px;">How we turn workplace activity into team-level insight&mdash;without monitoring individuals.</p>
+        <p style="font-size:clamp(1.05rem,1.4vw,1.18rem);line-height:1.6;color:#46586E;margin-top:18px;max-width:640px;">Work happens across remote, hybrid and in-office teams. Organisations need to understand where work flows smoothly, where it slows down, and where bottlenecks emerge&mdash;without watching or monitoring individual employees.</p>
+        <p style="font-size:clamp(1.05rem,1.4vw,1.18rem);line-height:1.6;color:#46586E;margin-top:18px;max-width:640px;">EPIP provides meaningful team-level intelligence while keeping individual employees anonymous.</p>
         <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:30px;">
           <a href="contact.html" class="btn-primary">Book a demo</a>
           <a href="#never" class="btn-secondary">What we never do</a>
@@ -155,53 +194,7 @@
       </div>
     </section>
 
-    <!-- ============ HOW IT WORKS ============ -->
-    <section id="how" class="section" style="background:#F5F3ED;">
-      <div class="container">
-        <div style="max-width:60ch;margin:0 0 clamp(36px,5vw,52px);">
-          <span class="eyebrow" style="color:#0F6E56;display:block;margin:0 0 18px;">How it works</span>
-          <h2 style="font-weight:600;font-size:clamp(1.7rem,3.6vw,2.6rem);line-height:1.12;letter-spacing:-0.012em;color:#173253;margin:0 0 16px;max-width:22ch;">Four stages, from raw signal to team-level insight.</h2>
-        </div>
-        <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,238px),1fr));gap:16px;">
-          <li class="card">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-              <span style="font-family:'Source Serif 4',serif;font-weight:600;font-size:15px;color:#0F6E56;">01</span>
-              <svg width="56" height="40" viewBox="0 0 56 40" aria-hidden="true"><circle cx="8" cy="9" r="2" fill="#9FB3C6"></circle><circle cx="20" cy="6" r="2" fill="#9FB3C6"></circle><circle cx="34" cy="11" r="2" fill="#9FB3C6"></circle><circle cx="48" cy="7" r="2" fill="#9FB3C6"></circle><circle cx="13" cy="24" r="2" fill="#9FB3C6"></circle><circle cx="30" cy="28" r="2" fill="#9FB3C6"></circle><circle cx="44" cy="22" r="2" fill="#9FB3C6"></circle><circle cx="9" cy="34" r="2" fill="#9FB3C6"></circle></svg>
-            </div>
-            <h3 style="font-size:17px;font-weight:600;color:#173253;margin:0 0 8px;">Non-invasive ingestion</h3>
-            <p style="font-size:14px;line-height:1.55;color:#5A6B7E;margin:0 0 10px;">We connect to the tools you already use and read only structural metadata: task timestamps, status changes and dependencies.</p>
-            <p style="font-size:12.5px;line-height:1.5;color:#7A4E18;margin:0;">Discarded: message content, files, screens.</p>
-          </li>
-          <li class="card">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-              <span style="font-family:'Source Serif 4',serif;font-weight:600;font-size:15px;color:#0F6E56;">02</span>
-              <svg width="56" height="40" viewBox="0 0 56 40" aria-hidden="true"><circle cx="10" cy="11" r="2.4" fill="#2BA7A0"></circle><circle cx="26" cy="8" r="2.4" fill="#2BA7A0"></circle><circle cx="42" cy="13" r="2.4" fill="#2BA7A0"></circle><circle cx="18" cy="27" r="2.4" fill="#2BA7A0"></circle><circle cx="38" cy="29" r="2.4" fill="#2BA7A0"></circle><line x1="2" y1="20" x2="54" y2="20" stroke="#C9842B" stroke-width="1.4" stroke-dasharray="3 3"></line></svg>
-            </div>
-            <h3 style="font-size:17px;font-weight:600;color:#173253;margin:0 0 8px;">Anonymisation at source</h3>
-            <p style="font-size:14px;line-height:1.55;color:#5A6B7E;margin:0 0 10px;">Identifiers are stripped the moment data arrives, before it's stored. Raw events never persist with a name attached.</p>
-            <p style="font-size:12.5px;line-height:1.5;color:#7A4E18;margin:0;">Discarded: names, emails, user IDs.</p>
-          </li>
-          <li class="card">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-              <span style="font-family:'Source Serif 4',serif;font-weight:600;font-size:15px;color:#0F6E56;">03</span>
-              <svg width="56" height="40" viewBox="0 0 56 40" aria-hidden="true"><circle cx="14" cy="14" r="2.2" fill="#1F3A5F"></circle><circle cx="20" cy="20" r="2.2" fill="#1F3A5F"></circle><circle cx="13" cy="24" r="2.2" fill="#1F3A5F"></circle><line x1="14" y1="14" x2="20" y2="20" stroke="#2BA7A0" stroke-width="1.1"></line><line x1="20" y1="20" x2="13" y2="24" stroke="#2BA7A0" stroke-width="1.1"></line><circle cx="40" cy="13" r="2.2" fill="#1F3A5F"></circle><circle cx="46" cy="20" r="2.2" fill="#1F3A5F"></circle><circle cx="38" cy="26" r="2.2" fill="#1F3A5F"></circle><line x1="40" y1="13" x2="46" y2="20" stroke="#2BA7A0" stroke-width="1.1"></line><line x1="46" y1="20" x2="38" y2="26" stroke="#2BA7A0" stroke-width="1.1"></line></svg>
-            </div>
-            <h3 style="font-size:17px;font-weight:600;color:#173253;margin:0 0 8px;">Privacy-preserving aggregation</h3>
-            <p style="font-size:14px;line-height:1.55;color:#5A6B7E;margin:0 0 10px;">Insight is computed across groups using k-anonymity and differential privacy, so no single person can be re-identified or singled out.</p>
-            <p style="font-size:12.5px;line-height:1.5;color:#2F6B5E;margin:0;">Guaranteed: every figure covers a group, never one.</p>
-          </li>
-          <li class="card">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-              <span style="font-family:'Source Serif 4',serif;font-weight:600;font-size:15px;color:#0F6E56;">04</span>
-              <svg width="56" height="40" viewBox="0 0 56 40" aria-hidden="true"><rect x="6" y="22" width="8" height="14" rx="2" fill="#2BA7A0"></rect><rect x="18" y="16" width="8" height="20" rx="2" fill="#2BA7A0"></rect><rect x="30" y="19" width="8" height="17" rx="2" fill="#2BA7A0"></rect><rect x="42" y="10" width="8" height="26" rx="2" fill="#1D9E75"></rect></svg>
-            </div>
-            <h3 style="font-size:17px;font-weight:600;color:#173253;margin:0 0 8px;">Team-level insight</h3>
-            <p style="font-size:14px;line-height:1.55;color:#5A6B7E;margin:0 0 10px;">You get patterns, bottlenecks and trends for teams and workflows, surfaced as clear, decision-ready signals.</p>
-            <p style="font-size:12.5px;line-height:1.5;color:#2F6B5E;margin:0;">Never: a score, rank or profile for an individual.</p>
-          </li>
-        </ol>
-      </div>
-    </section>
+    <span id="how"></span>
 
     <!-- ============ DEMO VIDEO ============ -->
     <section id="demo" style="background:#15304E;color:#E8EEF4;">
@@ -479,6 +472,17 @@
           wrap.appendChild(iframe);
         });
       }
+    })();
+
+    (function () {
+      var dropdown = document.getElementById('about-dropdown');
+      var btn = document.getElementById('about-dropdown-btn');
+      if (!dropdown || !btn) return;
+      function close() { dropdown.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+      function toggle() { var open = dropdown.classList.toggle('open'); btn.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+      btn.addEventListener('click', function (e) { e.stopPropagation(); toggle(); });
+      document.addEventListener('click', function (e) { if (!dropdown.contains(e.target)) close(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
     })();
   </script>
 
